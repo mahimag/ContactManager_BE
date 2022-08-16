@@ -1,11 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
-
 import logger from '../misc/logger';
 import CustomError from '../misc/CustomError';
 import { writeDataToFile } from '../utils/common';
 import User, { UserToInsert } from '../domain/User';
 import { USERS_LIST_FILE } from '../constants/common';
-
 import users from '../users.json';
 
 /**
