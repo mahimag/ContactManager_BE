@@ -1,7 +1,44 @@
 import logger from '../misc/logger';
 import Success from '../domain/Success';
-import * as UserModel from '../models/UserModel';
+// import * as UserModel from '../models-bu/UserModel';
 import User, { UserToInsert } from '../domain/User';
+import UserModel from "../models/UserAccount";
+import Token from "../domain/Token";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
+/**
+ * Service to authenticate a user.
+ * @param {string} email
+ * @param {string} password
+ */
+ export const signin = async (
+  email: string,
+  password: string
+): Promise<Success<Token>> => {
+  const user = await UserModel.getUserByEmail(email);
+  if (!user) {
+    return {
+      message: "Invalid email or password",
+    };
+  }
+  const isPasswordMatch = await bcrypt.compare(password, user.password);
+  if (!isPasswordMatch) {
+    return {
+      message: "Password does not match",
+    };
+  }
+
+  const accessToken = jwt.sign(
+    { userId: user.id },
+    process.env.JWT_SECRET as string
+  );
+
+  return {
+    data: { accessToken },
+    message: "User signed in successfully",
+  };
+};
 
 /**
  * Get all the users.

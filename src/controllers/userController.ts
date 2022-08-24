@@ -1,10 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import { NextFunction, Request, Response } from 'express';
-
 import logger from '../misc/logger';
 import CustomError from '../misc/CustomError';
 import * as userService from '../services/userService';
-
+import bcrypt from 'bcrypt';
 /**
  * Get all users.
  * @param {Request} req
@@ -37,12 +36,15 @@ export const getUser = (req: Request, res: Response, next: NextFunction) => {
  * @param {Response} res
  */
 export const createUser = (req: Request, res: Response, next: NextFunction) => {
-  const { name, email } = req.body;
+  const { password } = req.body;
 
-  userService
-    .createUser({ name, email })
+  bcrypt.hash(password, 14, (err, hash) => {
+    console.log(hash);
+    userService
+    .createUser({ ...req.body, password: hash })
     .then((data) => res.json(data))
     .catch((err) => next(err));
+  } );
 };
 
 /**
@@ -52,15 +54,15 @@ export const createUser = (req: Request, res: Response, next: NextFunction) => {
  */
 export const updateUser = (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.params;
-  const { name, email } = req.body;
+  const { email, password } = req.body;
 
-  if (!userId || !name || !email) {
+  if (!userId || !password || !email) {
     logger.error('Missing parameters userId or name or email');
     throw new CustomError('UserId, Name and email are required', StatusCodes.BAD_REQUEST);
   }
 
   userService
-    .updateUser({ name, email, id: +userId })
+    .updateUser({ id: +userId, email, password })
     .then((data) => res.json(data))
     .catch((err) => next(err));
 };
