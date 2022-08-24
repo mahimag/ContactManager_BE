@@ -54,16 +54,10 @@ export const updateContact = (
   next: NextFunction
 ) => {
   const { contactId } = req.params;
-  const {
-    firstname,
-    lastname,
-    number,
-    email,
-    address,
-    photo,
-    user_id,
-    is_fav,
-  } = req.body;
+  const { firstname, lastname, number, email, address, user_id, is_fav } =
+    req.body;
+
+  const path = req.file?.path as string;
 
   contactService
     .updateContact({
@@ -73,9 +67,9 @@ export const updateContact = (
       number,
       email,
       address,
-      photo,
-      user_id,
-      is_fav,
+      user_id: JSON.parse(user_id),
+      is_fav: JSON.parse(is_fav),
+      photo: path,
     })
     .then((data) => res.json(data))
     .catch((err) => next(err));
