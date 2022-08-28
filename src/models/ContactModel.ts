@@ -4,8 +4,10 @@ import Contact, { ContactToInsert } from "../domain/Contact";
 class ContactModel {
   public static table = "contact_table";
 
-  public static async getAllContacts() {
-    const contacts = await db(ContactModel.table).select();
+  public static async getAllContacts(id: number) {
+    const contacts = await db(ContactModel.table)
+      .select()
+      .where({ user_id: id });
 
     return contacts;
   }

@@ -1,15 +1,19 @@
-import { StatusCodes } from 'http-status-codes';
-import { NextFunction, Request, Response } from 'express';
-import logger from '../misc/logger';
-import CustomError from '../misc/CustomError';
-import * as userService from '../services/userService';
-import bcrypt from 'bcrypt';
+import { StatusCodes } from "http-status-codes";
+import { NextFunction, Request, Response } from "express";
+import logger from "../misc/logger";
+import CustomError from "../misc/CustomError";
+import * as userService from "../services/userService";
+import bcrypt from "bcrypt";
 /**
  * Get all users.
  * @param {Request} req
  * @param {Response} res
  */
-export const getAllUsers = (req: Request, res: Response, next: NextFunction) => {
+export const getAllUsers = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   userService
     .getAllUsers()
     .then((data) => res.json(data))
@@ -39,12 +43,11 @@ export const createUser = (req: Request, res: Response, next: NextFunction) => {
   const { password } = req.body;
 
   bcrypt.hash(password, 14, (err, hash) => {
-    console.log(hash);
     userService
-    .createUser({ ...req.body, password: hash })
-    .then((data) => res.json(data))
-    .catch((err) => next(err));
-  } );
+      .createUser({ ...req.body, password: hash })
+      .then((data) => res.json(data))
+      .catch((err) => next(err));
+  });
 };
 
 /**
@@ -57,8 +60,11 @@ export const updateUser = (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
 
   if (!userId || !password || !email) {
-    logger.error('Missing parameters userId or name or email');
-    throw new CustomError('UserId, Name and email are required', StatusCodes.BAD_REQUEST);
+    logger.error("Missing parameters userId or name or email");
+    throw new CustomError(
+      "UserId, Name and email are required",
+      StatusCodes.BAD_REQUEST
+    );
   }
 
   userService

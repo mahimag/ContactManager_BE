@@ -6,9 +6,11 @@ import Contact, { ContactToInsert } from "../domain/Contact";
 import fs from "fs";
 import { v2 as cloudinary } from "cloudinary";
 
-export const getAllContacts = async (): Promise<Success<Contact[]>> => {
+export const getAllContacts = async (
+  id: number
+): Promise<Success<Contact[]>> => {
   logger.info("Getting all Contacts");
-  const contacts = await ContactModel.getAllContacts();
+  const contacts = await ContactModel.getAllContacts(id);
 
   return {
     data: contacts,
@@ -30,7 +32,6 @@ export const getContact = async (
 export const createContact = async (
   contact: ContactToInsert
 ): Promise<Success<Contact>> => {
-  logger.info("Contact created successfully");
   try {
     if (!fs.existsSync(contact.photo)) {
       throw new Error("File not found!!");
@@ -51,6 +52,7 @@ export const createContact = async (
       photo: result.url,
     });
 
+    logger.info("Contact created successfully");
     return {
       data: insertedContact,
       message: "Contact created successfully",

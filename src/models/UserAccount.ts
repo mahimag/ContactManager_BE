@@ -11,11 +11,9 @@ class UserAccount {
   }
 
   public static async createUser(user: UserToInsert) {
-    const newUser = await db(UserAccount.table).insert(user, [
-      "id",
-      "email",
-      "password"
-    ]);
+    const newUser = await db(UserAccount.table)
+      .insert(user, ["id", "email", "password"])
+      .returning(["id", "email"]);
 
     return newUser;
   }
@@ -42,7 +40,7 @@ class UserAccount {
     const [updatedUser] = await db(UserAccount.table)
       .where({ id: user.id })
       .update(user)
-      .returning([ "email", "password"]);
+      .returning(["email", "password"]);
 
     return updatedUser;
   }

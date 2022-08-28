@@ -1,5 +1,6 @@
 interface Token {
-    accessToken: string;
-  }
-  
+  accessToken: string;
+  id: number;
+}
+
 export default Token;

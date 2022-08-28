@@ -4,9 +4,9 @@ import * as contactController from "../controllers/contactController";
 
 const router = Router();
 
-router.get("/", contactController.getAllContacts);
+router.post("/", contactController.getAllContacts);
 router.get("/:contactId", contactController.getContact);
-router.post("/", upload.single("photo"), contactController.createContact);
+router.post("/add", upload.single("photo"), contactController.createContact);
 router.put(
   "/:contactId",
   upload.single("photo"),

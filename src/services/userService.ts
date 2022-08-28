@@ -1,7 +1,7 @@
-import logger from '../misc/logger';
-import Success from '../domain/Success';
+import logger from "../misc/logger";
+import Success from "../domain/Success";
 // import * as UserModel from '../models-bu/UserModel';
-import User, { UserToInsert } from '../domain/User';
+import User, { UserToInsert } from "../domain/User";
 import UserModel from "../models/UserAccount";
 import Token from "../domain/Token";
 import jwt from "jsonwebtoken";
@@ -12,7 +12,7 @@ import bcrypt from "bcrypt";
  * @param {string} email
  * @param {string} password
  */
- export const signin = async (
+export const signin = async (
   email: string,
   password: string
 ): Promise<Success<Token>> => {
@@ -35,7 +35,7 @@ import bcrypt from "bcrypt";
   );
 
   return {
-    data: { accessToken },
+    data: { accessToken, id: user.id },
     message: "User signed in successfully",
   };
 };
@@ -45,12 +45,12 @@ import bcrypt from "bcrypt";
  * @returns {Promise<Success<User[]>>}
  */
 export const getAllUsers = async (): Promise<Success<User[]>> => {
-  logger.info('Getting all users');
+  logger.info("Getting all users");
   const users = await UserModel.getAllUsers();
 
   return {
     data: users,
-    message: 'Users fetched successfully',
+    message: "Users fetched successfully",
   };
 };
 
@@ -65,7 +65,7 @@ export const getUser = async (userId: number): Promise<Success<User>> => {
 
   return {
     data: user,
-    message: 'User fetched successfully',
+    message: "User fetched successfully",
   };
 };
 
@@ -74,13 +74,15 @@ export const getUser = async (userId: number): Promise<Success<User>> => {
  * @param {UserToInsert} user
  * @returns {Promise<Success<User>>}
  */
-export const createUser = async (user: UserToInsert): Promise<Success<User>> => {
+export const createUser = async (
+  user: UserToInsert
+): Promise<Success<User>> => {
   const insertedUser = await UserModel.createUser(user);
-  logger.info('User created successfully');
+  logger.info("User created successfully");
 
   return {
     data: insertedUser,
-    message: 'User created successfully',
+    message: "User created successfully",
   };
 };
 
@@ -91,11 +93,11 @@ export const createUser = async (user: UserToInsert): Promise<Success<User>> => 
  */
 export const updateUser = async (user: User): Promise<Success<User>> => {
   const updatedUser = await UserModel.updateUser(user);
-  logger.info('User updated successfully');
+  logger.info("User updated successfully");
 
   return {
     data: updatedUser,
-    message: 'User updated successfully',
+    message: "User updated successfully",
   };
 };
 
@@ -106,9 +108,9 @@ export const updateUser = async (user: User): Promise<Success<User>> => {
  */
 export const deleteUser = async (userId: number): Promise<Success<User>> => {
   await UserModel.deleteUser(userId);
-  logger.info('User deleted successfully');
+  logger.info("User deleted successfully");
 
   return {
-    message: 'User deleted successfully',
+    message: "User deleted successfully",
   };
 };

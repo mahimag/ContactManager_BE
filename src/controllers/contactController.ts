@@ -6,9 +6,9 @@ export const getAllContacts = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("testing");
+  const { id } = req.body;
   contactService
-    .getAllContacts()
+    .getAllContacts(+id)
     .then((data) => res.json(data))
     .catch((err) => next(err));
 };
@@ -32,7 +32,6 @@ export const createContact = (
 
   const path = req.file?.path as string;
 
-  console.log("testing!!!");
   contactService
     .createContact({
       firstname,
