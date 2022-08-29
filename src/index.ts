@@ -6,6 +6,7 @@ import { notFound } from "./middlewares/notFound";
 import { errorHandler } from "./middlewares/errorHandler";
 import { v2 as cloudinary } from "cloudinary";
 import logger from "./misc/logger";
+import { NextFunction } from "migrate";
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ app.use(express.json());
 
 app.use(cors());
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.send("API is running....");
 });
 

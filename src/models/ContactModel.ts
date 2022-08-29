@@ -12,9 +12,9 @@ class ContactModel {
     return contacts;
   }
 
-  public static async createContact(Contact: ContactToInsert) {
+  public static async createContact(contact: ContactToInsert) {
     try {
-      const newContact = await db(ContactModel.table).insert(Contact, [
+      const newContact = await db(ContactModel.table).insert(contact, [
         "id",
         "firstname",
         "lastname",
@@ -31,9 +31,9 @@ class ContactModel {
     }
   }
 
-  public static async getContact(ContactId: number): Promise<Contact> {
+  public static async getContact(contactId: number): Promise<Contact> {
     const contact = await db(ContactModel.table)
-      .where({ id: ContactId })
+      .where({ id: contactId })
       .select()
       .first();
 
@@ -67,8 +67,8 @@ class ContactModel {
     return updatedContact;
   }
 
-  public static async deleteContact(ContactId: number): Promise<void> {
-    await db(ContactModel.table).where({ id: ContactId }).delete();
+  public static async deleteContact(contactId: number): Promise<void> {
+    await db(ContactModel.table).where({ id: contactId }).delete();
   }
 }
 
