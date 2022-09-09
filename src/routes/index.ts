@@ -16,8 +16,4 @@ router.use("/users", userRoutes);
 
 router.use("/contacts", contactRoutes);
 
-// router.use("/", (req, res) => {
-//     res.send("API V1");
-// });
-
 export default router;
