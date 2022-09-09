@@ -4,7 +4,7 @@
   "description": "CRUD API using nodejs and express on local filesystem",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon",
+    "start": "node",
     "build": "tsc",
     "lint:fix": "tslint --fix -c tslint.json 'src/**/*.{ts,js}'",
     "prettify": "prettier --single-quote --print-width 120 --write 'src/**/*.ts'",
