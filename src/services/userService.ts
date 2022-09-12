@@ -16,7 +16,9 @@ export const signin = async (
   email: string,
   password: string
 ): Promise<Success<Token>> => {
+  logger.info("this is a test!!");
   const user = await UserModel.getUserByEmail(email);
+  logger.info("this is after the test!!");
   if (!user) {
     return {
       message: "Invalid email or password",

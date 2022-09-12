@@ -1,13 +1,17 @@
 import db from "../db/db";
 import User, { UserToInsert } from "../domain/User";
+import logger from "../misc/logger";
 
 class UserAccount {
   public static table = "user_account";
 
   public static async getAllUsers() {
-    const users = await db(UserAccount.table).select();
-
-    return users;
+    try {
+      const users = await db(UserAccount.table).select();
+      return users;
+    } catch (error) {
+      logger.error(error);
+    }
   }
 
   public static async createUser(user: UserToInsert) {
